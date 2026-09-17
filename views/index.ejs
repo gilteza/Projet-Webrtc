@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WebRTC NAT Lab</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <h1>WebRTC NAT Lab</h1>
+  <p class="subtitle">Analyse du comportement ICE / STUN / TURN selon le réseau</p>
+
+  <div id="setup">
+    <input id="roomId" type="text" placeholder="ID de salle (ex: demo)" value="demo" />
+    <select id="networkType">
+      <option value="lan">LAN (même réseau)</option>
+      <option value="wifi">Wi-Fi</option>
+      <option value="4g">4G / Mobile</option>
+      <option value="vpn">VPN</option>
+      <option value="nat-symmetric">NAT symétrique</option>
+      <option value="unknown">Inconnu</option>
+    </select>
+    <button id="joinBtn">Rejoindre</button>
+  </div>
+
+  <div id="controls" style="display:none;">
+    <button id="toggleMic"> Couper micro</button>
+    <button id="toggleCam"> Couper la caméra</button>
+    <label style="margin-left:1rem;">
+       Volume distant
+      <input id="remoteVolume" type="range" min="0" max="1" step="0.05" value="1" />
+    </label>
+  </div>
+
+  <div id="videos">
+    <video id="localVideo" autoplay playsinline muted></video>
+    <video id="remoteVideo" autoplay playsinline></video>
+  </div>
+
+  <h2>Journal des événements ICE</h2>
+  <ul id="logPanel"></ul>
+
+  <script>
+    window.__ICE_CONFIG__ = {
+      turnHost: <%- JSON.stringify(turnHost || '') %>,
+      turnUser: <%- JSON.stringify(turnUser || '') %>,
+      turnPass: <%- JSON.stringify(turnPass || '') %>
+    };
+  </script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/client.js"></script>
+</body>
+</html>
